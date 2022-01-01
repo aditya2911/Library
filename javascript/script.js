@@ -5,26 +5,50 @@ function Book(title, author, pages, status) {
     this.author = author;
     this.pages = pages;
     this.status = status;
-    this.myLibrary = [];
 }
 
 Book.prototype.addBookToLibrary = function (title) {
-    this.myLibrary["title"] = this.title;
-    this.myLibrary["author"] = this.author;
+    myLibrary.push({"title" :this.title});
+    myLibrary.push({"author" :this.author});
 
-    this.myLibrary["pages"] = this.pages;
-    this.myLibrary["status"] = this.status;
+    myLibrary.push({"pages" :this.pages});
+
+    myLibrary.push({"status" :this.status});
+
+  
 
     console.log(this.myLibrary);
 
 }
 
+let title1;
+let author;
+let pages;
+let statusVar;
 
-let a = new Book("aditya", "salunke", "123", "read");
-a.addBookToLibrary();
+const inputTitle = document.querySelector('#title');
+const inputAuthor = document.querySelector('#author');
+const inputPages = document.querySelector('#pages');
 
-let b = new Book("ariba", "sunke", "11233", "not read");
-b.addBookToLibrary();
+const statusValue = document.querySelector('#status');
+const submitButton  = document.querySelector('[data-submit]');
+
+
+submitButton.addEventListener('click',()=>{
+    title1 = inputTitle.value;
+    author =  inputAuthor.value;
+    pages = inputPages.value;
+    statusVar = statusValue.value;
+    console.log({author , title1, pages,statusVar});
+  
+    let a = new Book(title1,author,pages,statusVar);
+    a.addBookToLibrary();
+})
+// let a = new Book("aditya", "salunke", "123", "read");
+// a.addBookToLibrary();
+
+// let b = new Book("ariba", "sunke", "11233", "not read");
+// b.addBookToLibrary();
 
 
 
