@@ -1,5 +1,29 @@
 let myLibrary = [];
 let iterator = 0;
+let truthFlag = false;
+
+
+
+function isEmpty(str){
+    return !str.trim().length;
+}
+
+function isNumber(number){
+    let a =parseInt(number)
+   return  a;
+}
+
+function BookAlreadyExist(bookTitle){
+    myLibrary.some((bookCard)=>{
+        if(bookCard.title === bookTitle)
+        {
+            truthFlag = true
+        }
+        else{truthFlag = false};
+    })
+    if(truthFlag)return true;
+  
+}
 
 function Book(title, author, pages, status) {
     this.title = title;
@@ -10,7 +34,17 @@ function Book(title, author, pages, status) {
 }
 
 Book.prototype.addBookToLibrary = function (title) {
-    iterator++
+ if(isEmpty(this.title)){alert("title field is empty"); return;}
+ if(isEmpty(this.author)){alert("author field is empty"); return;}
+ if(isEmpty(this.pages)){alert("page field is empty"); return;}
+ if(!isNumber(this.pages)){alert("please input only a  number in page field"); return;}
+
+ let bookChecker = BookAlreadyExist(this.title);
+
+
+ if( bookChecker == true ){alert('book already exist');return;} 
+
+
     myLibrary.push({"title" :this.title ,"author" :this.author,"pages" :this.pages,"status" :this.status});
 
 
@@ -65,9 +99,8 @@ else{
 
   
 
-    console.log(this.myLibrary);
-
 }
+
 
 let title1;
 let author;
@@ -91,25 +124,23 @@ document.addEventListener('click',(e)=>
         let parentDiv = e.target.parentNode;
         let cardTitle = parentDiv.firstChild.textContent;
      
-        console.log(cardTitle);
-        console.log(parentDiv);
     
       
 
         myLibrary.forEach((element1)=>{
             
+
+                let arrayIndex = myLibrary.indexOf(element1);
+                
                 let tempString = `Title:${element1.title}`;
-                console.log('tempString :'+tempString);
                 if(tempString == cardTitle){
-                    console.log('inside loop')
-                    myLibrary.pop(element1);
+                    myLibrary.splice(arrayIndex,1);
                 }
 
-            console.log(element1.title);
         })
         // iterator--
              outputContainer.removeChild(parentDiv);
-             console.table(myLibrary);
+        
 
     }
 
@@ -117,24 +148,21 @@ document.addEventListener('click',(e)=>
 
         let parentDiv1 = e.target.parentNode;
         let cardTitle1 = parentDiv1.firstChild.textContent;
-     
-        console.log(cardTitle1);
-        console.log(parentDiv1);
-        console.log('selection land')
+        let selectionElement = e.target;
         let a = e.target.Selection;
-        console.log( {a}  );
 
         
-        
-        myLibrary.forEach((elementObject)=>{
-            let tempString1 = `Title:${elementObject.title}`;
-            console.log('tempString :'+tempString1);
-
-            if(tempString1 ==  cardTitle1){
-                elementObject.status = e.target.value;
-                console.table(myLibrary);
-            }
+        selectionElement.addEventListener('change',()=>{
+            myLibrary.forEach((elementObject)=>{
+                let tempString1 = `Title:${elementObject.title}`;
+    
+                if(tempString1 ==  cardTitle1){
+                    elementObject.status = e.target.value;
+               
+                }
+            })
         })
+    
         
     }
     
@@ -149,7 +177,6 @@ submitButton.addEventListener('click',()=>{
     author =  inputAuthor.value;
     pages = inputPages.value;
     statusVar = statusValue.value;
-    // console.log({author , title1, pages,statusVar});
   
     let a = new Book(title1,author,pages,statusVar);
     a.addBookToLibrary();
